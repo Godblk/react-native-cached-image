@@ -139,6 +139,12 @@ class CachedImage extends React.Component {
 
     processSource(source) {
         const url = _.get(source, ['uri'], null);
+        if (!url) {
+            this.safeSetState({
+                cachedImagePath: null
+            });
+            return
+        }
         const options = this.getImageCacheManagerOptions();
         const imageCacheManager = this.getImageCacheManager();
 
