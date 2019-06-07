@@ -164,9 +164,9 @@ class CachedImage extends React.Component {
     }
 
     render() {
-        // if (this.state.isCacheable && !this.state.cachedImagePath) {
-        //     return this.renderLoader();
-        // }
+        if (this.state.isCacheable && !this.state.cachedImagePath) {
+            return this.renderLoader();
+        }
         const props = getImageProps(this.props);
         const style = this.props.style || styles.image;
         const source = (this.state.isCacheable && this.state.cachedImagePath) ? {
@@ -192,45 +192,50 @@ class CachedImage extends React.Component {
         const imageProps = getImageProps(this.props);
         const imageStyle = [this.props.style, styles.loaderPlaceholder];
 
-        const activityIndicatorProps = _.omit(this.props.activityIndicatorProps, ['style']);
-        const activityIndicatorStyle = this.props.activityIndicatorProps.style || styles.loader;
+        return (
+            <ImageBackground
+                source={this.props.defaultSource}
+                style={imageStyle}/>
+        )
+        // const activityIndicatorProps = _.omit(this.props.activityIndicatorProps, ['style']);
+        // const activityIndicatorStyle = this.props.activityIndicatorProps.style || styles.loader;
 
-        const LoadingIndicator = this.props.loadingIndicator;
+        // const LoadingIndicator = this.props.loadingIndicator;
 
-        const source = this.props.defaultSource;
+        // const source = this.props.defaultSource;
 
-        // if the imageStyle has borderRadius it will break the loading image view on android
-        // so we only show the ActivityIndicator
-        if (!source || (Platform.OS === 'android' && flattenStyle(imageStyle).borderRadius)) {
-            if (LoadingIndicator) {
-                return (
-                    <View style={[imageStyle, activityIndicatorStyle]}>
-                        <LoadingIndicator {...activityIndicatorProps} />
-                    </View>
-                );
-            }
-            return (
-                <ActivityIndicator
-                    {...activityIndicatorProps}
-                    style={[imageStyle, activityIndicatorStyle]}/>
-            );
-        }
-        // otherwise render an image with the defaultSource with the ActivityIndicator on top of it
-        return this.props.renderImage({
-            ...imageProps,
-            style: imageStyle,
-            key: source.uri,
-            source,
-            children: (
-                LoadingIndicator
-                    ? <View style={[imageStyle, activityIndicatorStyle]}>
-                    <LoadingIndicator {...activityIndicatorProps} />
-                </View>
-                    : <ActivityIndicator
-                    {...activityIndicatorProps}
-                    style={activityIndicatorStyle}/>
-            )
-        });
+        // // if the imageStyle has borderRadius it will break the loading image view on android
+        // // so we only show the ActivityIndicator
+        // if (!source || (Platform.OS === 'android' && flattenStyle(imageStyle).borderRadius)) {
+        //     if (LoadingIndicator) {
+        //         return (
+        //             <View style={[imageStyle, activityIndicatorStyle]}>
+        //                 <LoadingIndicator {...activityIndicatorProps} />
+        //             </View>
+        //         );
+        //     }
+        //     return (
+        //         <ActivityIndicator
+        //             {...activityIndicatorProps}
+        //             style={[imageStyle, activityIndicatorStyle]}/>
+        //     );
+        // }
+        // // otherwise render an image with the defaultSource with the ActivityIndicator on top of it
+        // return this.props.renderImage({
+        //     ...imageProps,
+        //     style: imageStyle,
+        //     key: source.uri,
+        //     source,
+        //     children: (
+        //         LoadingIndicator
+        //             ? <View style={[imageStyle, activityIndicatorStyle]}>
+        //             <LoadingIndicator {...activityIndicatorProps} />
+        //         </View>
+        //             : <ActivityIndicator
+        //             {...activityIndicatorProps}
+        //             style={activityIndicatorStyle}/>
+        //     )
+        // });
     }
 
 }
