@@ -164,7 +164,7 @@ class CachedImage extends React.Component {
     }
 
     render() {
-        if (this.state.isCacheable && !this.state.cachedImagePath) {
+        if (this.state.isCacheable && !this.state.cachedImagePath && this.props.defaultSource) {
             return this.renderLoader();
         }
         const props = getImageProps(this.props);
